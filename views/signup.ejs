@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="csrf-token" content="<%= csrfToken %>">
+  <link rel="stylesheet" href="./css/styles.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="/images/icons8-books-doodle-favicons/Web/icons8-books-doodle-16.png" />
+  <title><%= title %></title>
+</head>
+<body class="bg-gray-100 min-h-screen">
+  <div class="grid grid-cols-4">
+    <div class="col-start-2 col-span-2">
+      <%- include ('header.ejs') %>
+      
+      <div class="bg-white p-8 shadow-md rounded-lg mt-6">
+        <h2 class="text-2xl font-semibold text-blue-800 mb-2">Sign up as a new user</h2>
+        <p class="text-sm text-gray-600 mb-4">
+          Already have an account?
+          <a href="/login" class="text-green-600 hover:underline font-semibold">Sign-in</a>
+        </p>
+        
+        <form action="/users" method="post" autocomplete="on" class="space-y-4">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          
+          <div>
+            <label for="role" class="block text-gray-700 font-medium">Role:</label>
+            <select name="role" id="role" class="mt-1 w-full p-2 border border-gray-300 rounded text-gray-900">
+              <option value="null">Please select</option>
+              <option value="teacher">Teacher</option>
+              <option value="student">Student</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="firstName" class="block text-gray-700 font-medium">First Name:</label>
+            <input type="text" name="firstName" id="firstName" class="mt-1 w-full p-2 border border-gray-300 rounded" />
+          </div>
+
+          <div>
+            <label for="lastName" class="block text-gray-700 font-medium">Last Name:</label>
+            <input type="text" name="lastName" id="lastName" class="mt-1 w-full p-2 border border-gray-300 rounded" />
+          </div>
+
+          <div>
+            <label for="email" class="block text-gray-700 font-medium">Email:</label>
+            <input type="email" name="email" id="email" class="mt-1 w-full p-2 border border-gray-300 rounded" />
+          </div>
+
+          <div>
+            <label for="password" class="block text-gray-700 font-medium">Password:</label>
+            <input type="password" name="password" id="password" class="mt-1 w-full p-2 border border-gray-300 rounded" />
+          </div>
+
+          <div>
+            <button type="submit" class="w-full bg-green-600 text-white font-semibold py-2 rounded hover:bg-green-700 transition">Sign Up</button>
+          </div>
+        </form>
+
+        <% if (messages && messages.error && messages.error.length > 0) { %>
+          <div class="mt-4 space-y-2">
+            <% for (var i = 0; i < messages.error.length; i++) { %>
+              <p class="bg-red-100 text-red-700 border border-red-300 px-4 py-2 rounded">
+                <%= messages.error[i] %>
+              </p>
+            <% } %>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

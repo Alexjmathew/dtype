@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="csrf-token" content="<%= csrfToken %>">
+  <link rel="stylesheet" href="./css/styles.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="/images/icons8-books-doodle-favicons/Web/icons8-books-doodle-16.png" />
+  <title><%= title %></title>
+</head>
+<body class="bg-gray-100 min-h-screen">
+  <div class="grid grid-cols-4">
+    <div class="col-start-2 col-span-2">
+      <%- include ('header.ejs') %>
+
+      <div class="bg-white p-8 shadow-md rounded-lg mt-6">
+        <h2 class="text-2xl font-semibold text-blue-800 mb-2">Login to your account</h2>
+        <p class="text-sm text-gray-600 mb-4">
+          Don't have an account? 
+          <a href="/signup" class="text-green-600 hover:underline font-semibold">Sign-up here</a>
+        </p>
+        
+        <form action="/logging" method="post" autocomplete="on" class="space-y-4">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          
+          <div>
+            <label for="email" class="block font-medium text-gray-700">Email:</label>
+            <input type="email" name="email" id="email" class="mt-1 w-full p-2 border border-gray-300 rounded" />
+          </div>
+          
+          <div class="relative">
+            <label for="password" class="block font-medium text-gray-700">Password:</label>
+            <input type="password" name="password" id="password" class="mt-1 w-full p-2 border border-gray-300 rounded" />
+            <%- include ('forgotPassword.ejs') %>
+          </div>
+          
+          <div>
+            <button type="submit" class="w-full bg-green-600 text-white font-semibold py-2 rounded hover:bg-green-700 transition">Sign In</button>
+          </div>
+        </form>
+
+        <% if (messages && messages.error && messages.error.length > 0) { %>
+          <div class="mt-4 space-y-2">
+            <% for (var i = 0; i < messages.error.length; i++) { %>
+              <p class="bg-red-100 text-red-700 border border-red-300 px-4 py-2 rounded">
+                <%= messages.error[i] %>
+              </p>
+            <% } %>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

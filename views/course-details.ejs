@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="csrf-token" content="<%= csrfToken %>">
+  <link rel="stylesheet" href="./css/styles.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="/images/icons8-books-doodle-favicons/Web/icons8-books-doodle-16.png" />
+  <title><%= title %></title>
+</head>
+<body class="bg-gray-100 min-h-screen">
+  <div class="grid grid-cols-4">
+    <div class="col-start-2 col-span-2">
+      <%- include('header.ejs') %>
+
+      <div class="py-4 border-b-2 flex justify-between">
+        <h2 class="text-xl font-bold text-gray-800">Course Details</h2>
+        <div class="text-right">
+          <p class="text-sm text-gray-700"><%= currentUser.firstName %> <%= currentUser.lastName %></p>
+          <a href="/signout" class="text-green-600 text-sm font-semibold hover:underline">Signout</a>
+        </div>
+      </div>
+
+      <% if (currentUser.role === "student") { %>
+        <a href="/student-dashboard" class="text-blue-600 text-sm font-semibold hover:underline mb-4 block">← Back to Dashboard</a>
+      <% } else { %>
+        <a href="/teacher-dashboard" class="text-blue-600 text-sm font-semibold hover:underline mb-4 block">← Back to Dashboard</a>
+      <% } %>
+
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h3 class="text-2xl font-bold text-blue-700 mb-4"><%= course.courseName %></h3>
+        <p class="text-sm text-gray-600 mb-1"><strong>Created By:</strong> <%= userofCourse.firstName %> <%= userofCourse.lastName %></p>
+        <p class="text-sm text-gray-600 mb-1"><strong>Email:</strong> <%= userofCourse.email %></p>
+        <p class="text-sm text-gray-600 mb-1"><strong>Created On:</strong> <%= course.createdAt.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></p>
+        <p class="text-md text-gray-700 mb-4"><strong>Description:</strong> <%= course.courseDescription %></p>
+
+        <% const isEnrolled = enrols.some(e => e.userId === currentUser.id && e.courseId === course.id); %>
+
+        <h4 class="text-lg font-semibold text-gray-800 mb-2">Chapters:</h4>
+        <% if (!isEnrolled && currentUser.role === "student") { %>
+          <div class="bg-yellow-100 text-red-700 font-medium rounded p-2 mb-4">Enrol to view content</div>
+        <% } %>
+
+        <ol class="list-decimal pl-6 space-y-2">
+          <% if (chapters.length === 0) { %>
+            <p class="text-gray-600">--- No Chapters available</p>
+          <% } else { %>
+            <% for (let chapter of chapters) { %>
+              <li>
+                <% if (currentUser.role === "teacher") { %>
+                  <a href="/view-chapter/<%= chapter.id %>/createpage?currentUserId=<%= encodeURIComponent(currentUser.id) %>" class="text-blue-600 hover:underline">
+                    <%= chapter.chapterName %>
+                  </a>
+                <% } else if (currentUser.role === "student") { %>
+                  <% if (isEnrolled) { %>
+                    <a href="/view-chapter/<%= chapter.id %>/viewpage?currentUserId=<%= encodeURIComponent(currentUser.id) %>" class="text-blue-600 hover:underline">
+                      <%= chapter.chapterName %>
+                    </a>
+                  <% } else { %>
+                    <%= chapter.chapterName %>
+                  <% } %>
+                <% } %>
+              </li>
+            <% } %>
+          <% } %>
+        </ol>
+
+        <% if (userofCourse.id === currentUser.id) { %>
+          <a href="/view-course/<%= course.id %>/createchapter?currentUserId=<%= currentUser.id %>" class="inline-block mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            Create a New Chapter
+          </a>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

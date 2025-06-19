@@ -1,0 +1,35 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <title><%= title %></title>
+    <link rel="icon" type="image/png" href="/images/icons8-books-doodle-favicons/Web/icons8-books-doodle-16.png">
+    <link rel="stylesheet" href="./css/styles.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gradient-to-br from-blue-100 to-indigo-200 min-h-screen flex flex-col">
+    <%- include ('header.ejs') %>
+    <main class="flex-grow flex justify-center items-center">
+      <div class="bg-white rounded-lg shadow-xl p-8 max-w-xl text-center">
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">Welcome to our Learning Platform!</h1>
+        <p class="text-lg text-gray-700 italic mb-4">
+          Fuel your curiosity, connect with mentors, and master new skills in our vibrant learning space!
+        </p>
+        <div class="space-y-3">
+          <p>
+            <span class="text-gray-700">New to our platform?</span>
+            <a href="/signup" class="text-blue-600 hover:underline font-semibold">Sign-up here</a>
+          </p>
+          <p>
+            <span class="text-gray-700">Already part of our community?</span>
+            <a href="/login" class="text-blue-600 hover:underline font-semibold">Sign-in</a>
+          </p>
+        </div>
+        <%- include ('footer.ejs') %>
+      </div>
+    </main>
+  </body>
+</html>

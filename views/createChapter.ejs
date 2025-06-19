@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="csrf-token" content="<%= csrfToken %>">
+  <link rel="stylesheet" href="./css/styles.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="/images/icons8-books-doodle-favicons/Web/icons8-books-doodle-16.png" />
+  <title><%= title %></title>
+</head>
+<body class="bg-gray-100 min-h-screen">
+  <div class="grid grid-cols-4">
+    <div class="col-start-2 col-span-2">
+      <%- include('header.ejs') %>
+
+      <div class="bg-white p-6 shadow-md rounded-lg mt-6">
+        <div class="flex justify-between mb-4">
+          <a href="/view-course/<%= course.id %>?currentUserId=<%= currentUser.id %>" class="text-blue-600 text-sm font-semibold hover:underline">← Back to Course</a>
+          <div class="text-right">
+            <p class="text-sm font-semibold text-gray-700"><%= currentUser.firstName %> <%= currentUser.lastName %></p>
+            <a href="/signout" class="text-green-600 text-sm font-semibold hover:underline">Signout</a>
+          </div>
+        </div>
+
+        <h2 class="text-xl font-bold text-gray-800 mb-1">Course: <%= course.courseName %></h2>
+        <h3 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Create a New Chapter</h3>
+
+        <form action="/view-course/<%= courseId %>/createchapter?currentUserId=<%= currentUser.id %>" method="post" autocomplete="on" class="space-y-5">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <input type="hidden" name="courseId" value="<%= courseId %>">
+
+          <div>
+            <label for="chapterName" class="block text-gray-700 font-medium">Chapter Name:</label>
+            <input type="text" name="chapterName" id="chapterName" class="mt-1 w-full p-2 border border-gray-300 rounded" required />
+          </div>
+
+          <div>
+            <label for="chapterDescription" class="block text-gray-700 font-medium">Chapter Description:</label>
+            <textarea name="chapterDescription" id="chapterDescription" class="mt-1 w-full p-2 border border-gray-300 rounded h-32" required></textarea>
+          </div>
+
+          <div>
+            <button type="submit" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 font-semibold transition">Create Chapter</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
